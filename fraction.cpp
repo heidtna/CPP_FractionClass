@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <cmath>
 #include "fraction.h"
 
 fraction::fraction()
@@ -18,31 +19,27 @@ fraction::fraction(int newNumerator, int newDenominator)
 
 fraction::fraction(double decimalValue)
 {
-
+    setFraction(decimalValue);
 };
 
 double fraction::decimalValue()
 {
-    assert(numerator != NULL && denominator != NULL);
-    double tmpNumerator = static_cast<double>(numerator);
-    double tmpDenominator = static_cast<double>(denominator);
-
-    return numerator / denominator;
+    return (double)numerator / (double)denominator;
 };
 
 int fraction::calculateGCD(int firstNumber, int secondNumber)
 {
     int larger, smaller;
 
-    if (firstNumber > secondNumber)
-    {
-        larger = firstNumber;
-        smaller = secondNumber;
+    if ( abs(firstNumber) > abs(secondNumber) )
+    {   
+        larger = abs(firstNumber);
+        smaller = abs(secondNumber);
     }
     else
     {
-        larger = secondNumber;
-        smaller = firstNumber;
+        larger = abs(secondNumber);
+        smaller = abs(firstNumber);
     }
 
     while (larger != smaller)
@@ -60,6 +57,7 @@ int fraction::calculateGCD(int firstNumber, int secondNumber)
         }
         else
         {
+        
             return smaller;
         }
     }
@@ -69,7 +67,7 @@ int fraction::calculateGCD(int firstNumber, int secondNumber)
 
 void fraction::reduce()
 {
-    assert(numerator != NULL && denominator != NULL);
+    // assert(numerator != NULL && denominator != NULL);
     int gcd = calculateGCD(numerator, denominator);
 
     numerator = numerator / gcd;
@@ -78,6 +76,20 @@ void fraction::reduce()
 
 void fraction::setFraction(double decimalValue)
 {
+    int tempValue;
+    int multiplyValue = 1;
+
+    tempValue = decimalValue * multiplyValue;
+    while ( (tempValue != decimalValue * multiplyValue) && 
+            (multiplyValue <= 100000) )
+    {
+        multiplyValue = multiplyValue * 10;
+        tempValue = decimalValue * multiplyValue;
+    }
+
+    numerator = decimalValue * multiplyValue;
+    denominator = multiplyValue;
+    reduce();
     
 };
 
@@ -127,42 +139,79 @@ fraction fraction::operator / (const fraction& fraction) const
     return fraction;
 };
 
-bool fraction::operator > (const fraction& fraction) const
+fraction fraction::operator > (const fraction& fraction) const
 {
-    return true;
+    return fraction;
 };
 
-bool fraction::operator < (const fraction& fraction) const
+fraction fraction::operator < (const fraction& fraction) const
 {
-    return true;
+    return fraction;
 };
 
-bool fraction::operator >= (const fraction& fraction) const
+fraction fraction::operator >= (const fraction& fraction) const
 {
-    return true;
+    return fraction;
 };
 
-bool fraction::operator >= (const fraction& fraction) const
+fraction fraction::operator <= (const fraction& fraction) const
 {
-    return true;
+    return fraction;
 };
 
-bool fraction::operator == (const fraction& fraction) const
+fraction fraction::operator == (const fraction& fraction) const
 {
-    return true;
+    return fraction;
 };
 
-fraction fraction::outputFormat()
+void fraction::outputFormat(OutputFormat f)
 {
-
+    format = f; 
 };
 
-istream& operator >> (istream& i, const fraction& fraction)
-{
+OutputFormat fraction::format = mixed;
 
+istream& operator >> (istream& i, fraction& fraction)
+{
+    i >> fraction.numerator >> fraction.denominator;
+    return i;
 };
 
 ostream& operator << (ostream& o, const fraction& fraction)
 {
+    switch(fraction.format)
+    {
+        case (mixed):
+            if (fraction.getNumerator() / fraction.getDenominator() == 0)
+            {
+                cout << fraction.getNumerator() << "/"
+                    << fraction.getDenominator();
+            }
 
+            else if (fraction.getNumerator() % fraction.getDenominator() == 0)
+            {
+                cout << fraction.getNumerator() / fraction.getDenominator();
+            }
+            
+            else
+            {
+                cout << fraction.getNumerator() / fraction.getDenominator()
+                    << ' '
+                    << abs(fraction.getNumerator() % fraction.getDenominator())
+                    << '/' << fraction.getDenominator();
+            }
+            break;
+        
+        case improper:
+            cout << fraction.getNumerator() << '/'
+                    << fraction.getDenominator();
+            break;
+
+        case decimal:
+            cout << (double)fraction.getNumerator() / \
+                    (double)fraction.getDenominator();
+            break;
+    }
+
+    return o;
 };

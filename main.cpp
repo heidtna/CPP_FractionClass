@@ -40,6 +40,7 @@ int main()
    cout << f1 << endl;     // outputs -4 3/4
    cout << f2 << endl;     // outputs 4/8
    
+   /*
    fraction f5(12,8);
    fraction::outputFormat(improper);
    cout << f5 << endl;     // outputs 12/8
@@ -90,6 +91,7 @@ int main()
    else
       cout << "incorrect\n";
    // all relational operators should work for comparing fraction to int 
+   */
    
    return 0;
 }
