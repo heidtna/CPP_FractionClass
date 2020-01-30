@@ -19,7 +19,7 @@ CC = g++
 # The OBJECTS macro indicates all the .o files necessary to "build
 # your executable ... to simplify later lines
 
-OBJECTS = main.o read.o write.o sort.o findsum.o
+OBJECTS = main.o fraction.o
 
 # The LFLAGS macro is used to tell the compiler to use other libraries.
 
@@ -37,7 +37,7 @@ CFLAGS =
 # The EXE macro is used to indicate the name of the executable to
 # be produced.
 
-EXE = prog1
+EXE = prog4
 
 # This ends the MACRO DEFINITIONS SECTION
 
@@ -70,17 +70,8 @@ $(EXE):		$(OBJECTS)
 main.o:		main.cpp
 		$(CC) $(CFLAGS) -c main.cpp 
 
-read.o:		read.cpp
-		$(CC) $(CFLAGS) -c read.cpp 
-    
-write.o:	write.cpp
-		$(CC) $(CFLAGS) -c write.cpp 
-
-sort.o:		sort.cpp
-		$(CC) $(CFLAGS) -c sort.cpp 
-    
-findsum.o:	findsum.cpp
-		$(CC) $(CFLAGS) -c findsum.cpp 
+fraction.o:	fraction.cpp
+		$(CC) $(CFLAGS) -c fraction.cpp  
     
 # The next lines allow you to type 'make clean' to remove unnecessary
 # files following compilation and linking of your program.  Generally,
@@ -90,4 +81,13 @@ findsum.o:	findsum.cpp
 
 clean:
 		rm -rf $(EXE) $(OBJECTS) 
+
+# The next lines allow you to type 'make test' to run the program with
+# redirected input from an external text file. In this program, the 
+# main.cpp file only looks for two inputs used in the initial
+# input call and so the accompanying 'test.txt' file only has one line,
+# but you could concievably have a larger test file for more robust testing.
+
+test:
+		$(EXE) < test.txt
 
