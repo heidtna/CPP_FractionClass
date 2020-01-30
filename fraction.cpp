@@ -8,7 +8,8 @@
 
 fraction::fraction()
 {
-
+    numerator = 0;
+    denominator = 1;
 };
 
 fraction::fraction(int newNumerator, int newDenominator)
@@ -22,7 +23,7 @@ fraction::fraction(double decimalValue)
     setFraction(decimalValue);
 };
 
-double fraction::decimalValue()
+double fraction::decimalValue() const
 {
     return (double)numerator / (double)denominator;
 };
@@ -106,7 +107,19 @@ void fraction::setNumerator(int newNumerator)
 
 void fraction::setDenominator(int newDenominator)
 {
-    denominator = newDenominator;
+    double diffValue = (double) newDenominator / denominator;
+    double checkValue = numerator * diffValue;
+    
+    if (checkValue == numerator*diffValue)
+    {
+        numerator = numerator * diffValue;
+        denominator = newDenominator;
+    }
+    else
+    {
+        cout << "Error--Numerator would not be a whole number" << endl;
+    }
+    
 };
 
 int fraction::getNumerator() const
@@ -119,49 +132,102 @@ int fraction::getDenominator() const
     return denominator;
 };
 
-fraction fraction::operator + (const fraction& fraction) const
+fraction fraction::operator + (const fraction& frac) const
 {
-    return fraction;
+
+    int resultNumerator, resultDenominator;
+
+    int firstFracNumerator = numerator;
+    int fristFracDenominator = denominator;
+
+    int secondFracNumerator = frac.numerator;
+    int secondFracDenominator = frac.denominator;
+
+    firstFracNumerator = numerator * frac.denominator;
+    fristFracDenominator = denominator * frac.denominator;
+
+    secondFracNumerator = frac.numerator * denominator;
+    secondFracDenominator = frac.denominator * denominator;
+
+    resultNumerator = firstFracNumerator + secondFracNumerator;
+    resultDenominator = fristFracDenominator;
+
+    fraction tmp(resultNumerator, resultDenominator);
+    tmp.reduce();
+    
+    return tmp;
 };
 
-fraction fraction::operator - (const fraction& fraction) const
+fraction fraction::operator - (const fraction& frac) const
 {
-    return fraction;
+    int resultNumerator, resultDenominator;
+
+    int firstFracNumerator = numerator;
+    int fristFracDenominator = denominator;
+
+    int secondFracNumerator = frac.numerator;
+    int secondFracDenominator = frac.denominator;
+
+    firstFracNumerator = numerator * frac.denominator;
+    fristFracDenominator = denominator * frac.denominator;
+
+    secondFracNumerator = frac.numerator * denominator;
+    secondFracDenominator = frac.denominator * denominator;
+
+    resultNumerator = firstFracNumerator - secondFracNumerator;
+    resultDenominator = fristFracDenominator;
+
+    fraction tmp(resultNumerator, resultDenominator);
+    tmp.reduce();
+
+    return tmp;
 };
 
-fraction fraction::operator * (const fraction& fraction) const
+fraction fraction::operator * (const fraction& frac) const
 {
-    return fraction;
+    int resultNumerator = numerator * frac.numerator;
+    int resultDenominator = denominator * frac.denominator;
+
+    fraction tmp(resultNumerator, resultDenominator);
+    tmp.reduce();
+
+    return tmp;
 };
 
-fraction fraction::operator / (const fraction& fraction) const
+fraction fraction::operator / (const fraction& frac) const
 {
-    return fraction;
+    int resultNumerator = numerator * frac.denominator;
+    int resultDenominator = denominator * frac.numerator;
+
+    fraction tmp(resultNumerator, resultDenominator);
+    tmp.reduce();
+
+    return tmp;
 };
 
-fraction fraction::operator > (const fraction& fraction) const
+bool fraction::operator > (const fraction& frac) const
 {
-    return fraction;
+    return (decimalValue() > frac.decimalValue());
 };
 
-fraction fraction::operator < (const fraction& fraction) const
+bool fraction::operator < (const fraction& frac) const
 {
-    return fraction;
+    return (decimalValue() < frac.decimalValue());
 };
 
-fraction fraction::operator >= (const fraction& fraction) const
+bool fraction::operator >= (const fraction& frac) const
 {
-    return fraction;
+    return (decimalValue() >= frac.decimalValue());
 };
 
-fraction fraction::operator <= (const fraction& fraction) const
+bool fraction::operator <= (const fraction& frac) const
 {
-    return fraction;
+    return (decimalValue() <= frac.decimalValue());
 };
 
-fraction fraction::operator == (const fraction& fraction) const
+bool fraction::operator == (const fraction& frac) const
 {
-    return fraction;
+    return (decimalValue() == frac.decimalValue());
 };
 
 void fraction::outputFormat(OutputFormat f)

@@ -19,7 +19,7 @@ class fraction
         fraction(int, int);         // two int constructor
         fraction(double);           // decimal constructor
         int calculateGCD(int, int); // calculate the greatest common divisor
-        double decimalValue();      // calculate and return decimal value
+        double decimalValue()const;      // calculate and return decimal value
         void reduce();              // simplify fraction to lowest terms
         void setFraction(double);   // modify attribute values
         void setFraction(int, int); // modify attribute values
@@ -31,11 +31,11 @@ class fraction
         fraction operator - (const fraction&) const;    // overload subtraction operator
         fraction operator * (const fraction&) const;    // overload multiplication operator
         fraction operator / (const fraction&) const;    // overload division operator
-        fraction operator > (const fraction&) const;    // overload greater than relational operator
-        fraction operator < (const fraction&) const;    // overload less than relational operator
-        fraction operator >= (const fraction&) const;   // overload greater than or equal to relational operator
-        fraction operator <= (const fraction&) const;   // overload less than or equal to relational operator
-        fraction operator == (const fraction&) const;   // overlaod equal to relational operator
+        bool operator > (const fraction&) const;    // overload greater than relational operator
+        bool operator < (const fraction&) const;    // overload less than relational operator
+        bool operator >= (const fraction&) const;   // overload greater than or equal to relational operator
+        bool operator <= (const fraction&) const;   // overload less than or equal to relational operator
+        bool operator == (const fraction&) const;   // overlaod equal to relational operator
 
         static void outputFormat(OutputFormat); // use enum -> see Example 'circle2'
         // set default in imp as one line
