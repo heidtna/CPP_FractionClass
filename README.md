@@ -26,6 +26,8 @@ PROGRAM DESCRIPTION
 PROGRAM INPUT
     Input for this program can either be through the
     keyboard at the terminal or through redirected input.
+    Input is assumed to be fractions (i.e. '3/4'). Deviations
+    will cause unexpected output.
 
 PROGRAM OUTPUT
     Program will first output the 'fraction' object created
@@ -59,9 +61,10 @@ FILE INDEX
                                             numerator to maintain ratio (error otherwise)
                     getNumerator            return numerator value
                     getDenominator          return denominator value
+                    outputFormat            change class-level format for output
+                    outputMixed             output fraction as mixed number
                     <operator overloads>    allow arithmetic and relational operations 
                                             on fraction objects
-                    outputFormat            change class-level format for output
                     
 
     main.cpp        main                    calls other functions
@@ -75,8 +78,8 @@ PROGRAM TESTING
 
     Input Type      Input Values    Result
     --------------------------------------
-    keyboard        2 3             2/3
-    file            2 4             2/4
+    keyboard        2/3             2/3
+    file            7/11            7/11
 
     There are currently no known bugs. Errors should be reported to Author at:
     heidtna@mnstate.edu

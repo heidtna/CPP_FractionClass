@@ -58,7 +58,6 @@ int fraction::calculateGCD(int firstNumber, int secondNumber)
         }
         else
         {
-        
             return smaller;
         }
     }
@@ -91,7 +90,6 @@ void fraction::setFraction(double decimalValue)
     numerator = decimalValue * multiplyValue;
     denominator = multiplyValue;
     reduce();
-    
 };
 
 void fraction::setFraction(int newNumerator, int newDenominator)
@@ -119,7 +117,6 @@ void fraction::setDenominator(int newDenominator)
     {
         cout << "Error--Numerator would not be a whole number" << endl;
     }
-    
 };
 
 int fraction::getNumerator() const
@@ -134,23 +131,10 @@ int fraction::getDenominator() const
 
 fraction fraction::operator + (const fraction& frac) const
 {
+    int resultNumerator = (numerator * frac.getDenominator()) + \
+                      (denominator * frac.getNumerator());
 
-    int resultNumerator, resultDenominator;
-
-    int firstFracNumerator = numerator;
-    int fristFracDenominator = denominator;
-
-    int secondFracNumerator = frac.numerator;
-    int secondFracDenominator = frac.denominator;
-
-    firstFracNumerator = numerator * frac.denominator;
-    fristFracDenominator = denominator * frac.denominator;
-
-    secondFracNumerator = frac.numerator * denominator;
-    secondFracDenominator = frac.denominator * denominator;
-
-    resultNumerator = firstFracNumerator + secondFracNumerator;
-    resultDenominator = fristFracDenominator;
+    int resultDenominator = denominator * frac.getDenominator();
 
     fraction tmp(resultNumerator, resultDenominator);
     tmp.reduce();
@@ -160,22 +144,10 @@ fraction fraction::operator + (const fraction& frac) const
 
 fraction fraction::operator - (const fraction& frac) const
 {
-    int resultNumerator, resultDenominator;
-
-    int firstFracNumerator = numerator;
-    int fristFracDenominator = denominator;
-
-    int secondFracNumerator = frac.numerator;
-    int secondFracDenominator = frac.denominator;
-
-    firstFracNumerator = numerator * frac.denominator;
-    fristFracDenominator = denominator * frac.denominator;
-
-    secondFracNumerator = frac.numerator * denominator;
-    secondFracDenominator = frac.denominator * denominator;
-
-    resultNumerator = firstFracNumerator - secondFracNumerator;
-    resultDenominator = fristFracDenominator;
+    int resultNumerator = (numerator * frac.getDenominator()) - \
+                      (denominator * frac.getNumerator());
+                      
+    int resultDenominator = denominator * frac.getDenominator();
 
     fraction tmp(resultNumerator, resultDenominator);
     tmp.reduce();
@@ -185,8 +157,8 @@ fraction fraction::operator - (const fraction& frac) const
 
 fraction fraction::operator * (const fraction& frac) const
 {
-    int resultNumerator = numerator * frac.numerator;
-    int resultDenominator = denominator * frac.denominator;
+    int resultNumerator = numerator * frac.getNumerator();
+    int resultDenominator = denominator * frac.getDenominator();
 
     fraction tmp(resultNumerator, resultDenominator);
     tmp.reduce();
@@ -196,8 +168,8 @@ fraction fraction::operator * (const fraction& frac) const
 
 fraction fraction::operator / (const fraction& frac) const
 {
-    int resultNumerator = numerator * frac.denominator;
-    int resultDenominator = denominator * frac.numerator;
+    int resultNumerator = numerator * frac.getDenominator();
+    int resultDenominator = denominator * frac.getNumerator();
 
     fraction tmp(resultNumerator, resultDenominator);
     tmp.reduce();
@@ -230,6 +202,11 @@ bool fraction::operator == (const fraction& frac) const
     return (decimalValue() == frac.decimalValue());
 };
 
+bool fraction::operator != (const fraction& frac) const
+{
+    return (decimalValue() != frac.decimalValue());
+};
+
 void fraction::outputFormat(OutputFormat f)
 {
     format = f; 
@@ -239,33 +216,58 @@ OutputFormat fraction::format = mixed;
 
 istream& operator >> (istream& i, fraction& fraction)
 {
-    i >> fraction.numerator >> fraction.denominator;
+    i >> fraction.numerator;
+    i.get();
+    i >> fraction.denominator;
     return i;
 };
+
+void fraction::outputMixed() const
+{
+    if (getNumerator() / getDenominator() == 0)
+    {
+        cout << getNumerator() << "/"
+            << getDenominator();
+    }
+
+    else if (getNumerator() % getDenominator() == 0)
+    {
+        cout << getNumerator() / getDenominator();
+    }
+    
+    else
+    {
+        cout << getNumerator() / getDenominator()
+            << ' '
+            << abs(getNumerator() % getDenominator())
+            << '/' << getDenominator();
+    }
+}
 
 ostream& operator << (ostream& o, const fraction& fraction)
 {
     switch(fraction.format)
     {
         case (mixed):
-            if (fraction.getNumerator() / fraction.getDenominator() == 0)
-            {
-                cout << fraction.getNumerator() << "/"
-                    << fraction.getDenominator();
-            }
+            // if (fraction.getNumerator() / fraction.getDenominator() == 0)
+            // {
+            //     cout << fraction.getNumerator() << "/"
+            //         << fraction.getDenominator();
+            // }
 
-            else if (fraction.getNumerator() % fraction.getDenominator() == 0)
-            {
-                cout << fraction.getNumerator() / fraction.getDenominator();
-            }
+            // else if (fraction.getNumerator() % fraction.getDenominator() == 0)
+            // {
+            //     cout << fraction.getNumerator() / fraction.getDenominator();
+            // }
             
-            else
-            {
-                cout << fraction.getNumerator() / fraction.getDenominator()
-                    << ' '
-                    << abs(fraction.getNumerator() % fraction.getDenominator())
-                    << '/' << fraction.getDenominator();
-            }
+            // else
+            // {
+            //     cout << fraction.getNumerator() / fraction.getDenominator()
+            //         << ' '
+            //         << abs(fraction.getNumerator() % fraction.getDenominator())
+            //         << '/' << fraction.getDenominator();
+            // }
+            fraction.outputMixed();
             break;
         
         case improper:

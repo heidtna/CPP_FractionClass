@@ -15,18 +15,19 @@ class fraction
 {
 
     public:
-        fraction();                 // no argument constructor
-        fraction(int, int);         // two int constructor
-        fraction(double);           // decimal constructor
-        int calculateGCD(int, int); // calculate the greatest common divisor
-        double decimalValue()const;      // calculate and return decimal value
-        void reduce();              // simplify fraction to lowest terms
-        void setFraction(double);   // modify attribute values
-        void setFraction(int, int); // modify attribute values
-        void setNumerator(int);     // set numerator attribute
-        void setDenominator(int);   // set denominator attribute
-        int getNumerator() const;   // return numerator value
-        int getDenominator() const; // return denominator value
+        fraction();                     // no argument constructor
+        fraction(int, int);             // two int constructor
+        fraction(double);               // decimal constructor
+        int calculateGCD(int, int);     // calculate the greatest common divisor
+        double decimalValue() const;    // calculate and return decimal value
+        void reduce();                  // simplify fraction to lowest terms
+        void setFraction(double);       // modify attribute values
+        void setFraction(int, int);     // modify attribute values
+        void setNumerator(int);         // set numerator attribute
+        void setDenominator(int);       // set denominator attribute
+        int getNumerator() const;       // return numerator value
+        int getDenominator() const;     // return denominator value
+        void outputMixed() const;       // output fraction as mixed number
         fraction operator + (const fraction&) const;    // overload addition operator
         fraction operator - (const fraction&) const;    // overload subtraction operator
         fraction operator * (const fraction&) const;    // overload multiplication operator
@@ -36,6 +37,7 @@ class fraction
         bool operator >= (const fraction&) const;   // overload greater than or equal to relational operator
         bool operator <= (const fraction&) const;   // overload less than or equal to relational operator
         bool operator == (const fraction&) const;   // overlaod equal to relational operator
+        bool operator != (const fraction&) const;   // overload not equal to realtional operator
 
         static void outputFormat(OutputFormat); // use enum -> see Example 'circle2'
         // set default in imp as one line
